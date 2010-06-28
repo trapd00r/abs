@@ -1,0 +1,39 @@
+# $Id$
+# Maintainer:
+# Contributor: Roman Kyrylych <roman@archlinux.org>
+
+pkgname=gnome-bluetooth
+pkgver=2.30.0
+pkgrel=2
+pkgdesc="The GNOME Bluetooth Subsystem"
+arch=('i686' 'x86_64')
+url="http://live.gnome.org/GnomeBluetooth"
+license=('GPL' 'LGPL')
+depends=('libunique' 'libnotify' 'gconf' 'hicolor-icon-theme' 'gvfs-obexftp' 'obexd')
+makedepends=('intltool' 'pygtk' 'gnome-doc-utils' 'nautilus-sendto' 'gobject-introspection' 'gir-repository')
+replaces=('bluez-gnome')
+conflicts=('bluez-gnome')
+options=('!libtool' '!emptydirs' '!makeflags')
+install=${pkgname}.install
+source=("http://ftp.gnome.org/pub/GNOME/sources/${pkgname}/2.30/${pkgname}-${pkgver}.tar.bz2")
+sha256sums=('4caafa8c28195c81d8c51414f3a64489f81b9b46cac56979aeaaff8c9ebb78d4')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  ./configure --prefix=/usr \
+    --sysconfdir=/etc \
+    --localstatedir=/var \
+    --disable-desktop-update \
+    --disable-icon-update
+  make
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  make GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="${pkgdir}" install
+
+  install -d -m755 "${pkgdir}/usr/share/gconf/schemas"
+  gconf-merge-schema "${pkgdir}/usr/share/gconf/schemas/${pkgname}.schemas" \
+    --domain gnome-bluetooth2 ${pkgdir}/etc/gconf/schemas/*.schemas
+  rm -f ${pkgdir}/etc/gconf/schemas/*.schemas
+}

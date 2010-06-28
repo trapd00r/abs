@@ -1,0 +1,66 @@
+# $Id: PKGBUILD 59825 2009-11-28 01:40:17Z andrea $
+# Maintainer: Andrea Scarpino <andrea@archlinux.org>
+# Contributor: Pierre Schmitz <pierre@archlinux.de>
+
+pkgbase=kdebindings
+pkgname=('kdebindings-csharp'
+         'kdebindings-python'
+#         'kdebindings-ruby'
+         'kdebindings-smoke')
+pkgver=4.4.90
+pkgrel=1
+arch=('i686' 'x86_64')
+url='http://www.kde.org'
+license=('GPL' 'LGPL')
+makedepends=('pkgconfig' 'cmake' 'automoc4' 'pyqt' 'kdepim-runtime' 'mono'
+	'kdegraphics-okular' 'qwt' 'docbook-xsl' 'boost')
+source=("http://download.kde.org/unstable/${pkgver}/src/${pkgbase}-${pkgver}.tar.bz2")
+sha1sums=('0cf8adcf881bbeecdeba37ac40527fd478a6debe')
+
+build() {
+	cd ${srcdir}
+
+	export MONO_SHARED_DIR="${srcdir}/build/.mono"
+	mkdir -p "$MONO_SHARED_DIR"
+	cd build
+
+	cmake ../${pkgbase}-${pkgver} \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_falcon=OFF \
+		-DBUILD_java=OFF \
+		-DBUILD_ruby=OFF \
+		-DBUILD_php=OFF \
+		-DWITH_PolkitQt=OFF
+	make
+}
+
+package_kdebindings-csharp() {
+	pkgdesc='KDE bindings for mono'
+	depends=('kdebindings-smoke' 'mono')
+	export MONO_SHARED_DIR="${srcdir}/build/.mono"
+	mkdir -p "$MONO_SHARED_DIR"
+	cd $srcdir/build/csharp
+	make DESTDIR=$pkgdir install
+}
+
+package_kdebindings-python() {
+	pkgdesc='KDE bindings for python'
+	depends=('kdepim-runtime' 'pyqt')
+	cd $srcdir/build/python
+	make DESTDIR=$pkgdir install
+}
+
+package_kdebindings-ruby() {
+	pkgdesc='KDE bindings for ruby'
+	depends=('kdebindings-smoke' 'ruby')
+	cd $srcdir/build/ruby
+	make DESTDIR=$pkgdir install
+}
+
+package_kdebindings-smoke() {
+	pkgdesc='Language independent library for Qt and KDE bindings'
+	depends=('qscintilla' 'kdegraphics-okular' 'kdepim-runtime')
+	cd $srcdir/build/smoke
+	make DESTDIR=$pkgdir install
+}
