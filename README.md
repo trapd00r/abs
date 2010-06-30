@@ -26,13 +26,13 @@ Issues
 --------------
 
 If you have any issues with the master branch vs the svn branch . please post an
-issue at http://github.com/str1ngs/abs/issues.
+issue @ [Issues](http://github.com/str1ngs/abs/issues)
 
 The master branch is still not stable enough to replace abs. However if you 
 are in doubt you can use the svn branch it remains on touched. 
 
 The mirror does not contain the full archlinux svn history its only contains
-from revsion 84267 on. I do not plan on pulling that history 
+from revsion 84267 on see 6a0d0f6ad8b4ca8507ba . I do not plan on pulling that history.
 
 The svn commits are kinda cryptic. I need to dig deeper and find a better way to present them.
 
@@ -40,5 +40,5 @@ How to Contribute and use it
 --------------
 
 Contributing is very easy simple start by _watching_ the project on github. From there on you can
-pull from this repo. Please try not to fork the project watching and clone this repo should 
+pull from this repo. Please try not to fork the project watching and cloning this repo should 
 be enough.
