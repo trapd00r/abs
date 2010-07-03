@@ -23,8 +23,7 @@ abs. The layout only needed to be done once and rebasing takes care of the rest.
 Issues
 --------------
 
-If you have any issues with the master branch vs the svn branch . please post an
-issue @ [Issues](http://github.com/str1ngs/abs/issues)
+If you have any issues . Please post an issue @ [Issues](http://github.com/str1ngs/abs/issues)
 
 The master branch is still not stable enough to replace abs. However if you 
 are in doubt you can use the svn branch it remains untouched. 
